@@ -1,0 +1,4 @@
+'.source.jbc':
+  'editor':
+    'commentStart': '* '
+    'foldEndPattern': '^\\s*\\)'

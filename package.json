@@ -1,0 +1,17 @@
+{
+  "name": "language-jbase",
+  "version": "0.0.0",
+  "description": "jBASE language support in Atom",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0",
+    "node": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ghanyy/language-jbase.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ghanyy/language-jbase/issues"
+  }
+}
