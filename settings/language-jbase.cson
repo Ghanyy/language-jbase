@@ -1,4 +1,7 @@
 '.source.jbc':
   'editor':
-    'commentStart': '* '
-    'foldEndPattern': '^\\s*\\)'
+    'commentStart': '*'
+    'tabLength': 4
+    'preferredLineLength': 80
+    'showInvisibles': true
+    'nonWordCharacters':  '/\\()"\':,;<>~!@#$%^&*|+=[]{}`?-' # Default with dot excluded

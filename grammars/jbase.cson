@@ -4,5 +4,351 @@
   'jbc'
 ]
 'patterns': [
-
+    {
+        'include': '#comments'
+    },
+    {
+        'include': '#strings'
+    },
+    {
+        'include': '#statements'
+    },
+    {
+        'include': '#functions'
+    },
+    {
+        'include': '#dynamic_array'
+    },
+    {
+        'include': '#numbers'
+    },
+    {
+        'match': '([,]|[:])'
+        'name': 'punctuation.separator.jbase'
+    },
+    {
+      'comment': 'all-purpose keywords'
+      'captures':
+          '2':
+              'name': 'keyword.control.jbase'
+      'match': '(^|(?:[^.]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN)(?![.])\\b'
+    },
+    {
+        'comment': 'keywords that delimit flow conditionals'
+        'captures':
+            '2':
+                'name': 'keyword.control.conditional.jbase'
+        'match': '(^|(?:[^.]))\\b(IF|CASE|ELSE)(?![.])\\b'
+    },
+    {
+        'comment': 'keywords that delimit loops'
+        'captures':
+            '2':
+                'name': 'keyword.control.repeat.jbase'
+        'match': '(^|(?:[^.]))\\b(DO|FOR|LOOP|NEXT|REPEAT|WHILE|UNTIL)(?![.])\\b'
+    },
+    {
+        'comment': 'keywords that alter flow from within a block'
+        'captures':
+            '2':
+                'name': 'keyword.control.statement.jbase'
+        'match': '(^|(?:[^.]))\\b(BREAK|CONTINUE|ABORT)(?![.])\\b'
+    },
+    {
+        'comment': 'keywords that closes flow'
+        'captures':
+            '2':
+                'name': 'keyword.control.end.jbase'
+        'match': '(^|(?:[^.]))\\b(EXIT|STOP|ABORT)(?![.])\\b'
+    },
+    {
+        'comment': 'execution keywords'
+        'captures':
+            '2':
+                'name': 'keyword.control.execution.jbase'
+        'match': '(^|(?:[^.]))\\b(CALL|EXEC|EXECUTE|CALLONEXIT|CALLC|CALLdotNET|CALLJ)(?![.])\\b'
+    },
+    {
+        'comment': 'keywords that redirects flow'
+        'captures':
+            '2':
+                'name': 'keyword.control.redirect.jbase'
+        'match': '(^|(?:[^.]))\\b(GOSUB|GOTO|RETURN|GO|ONGOSUB|ONGOTO)(?![.])\\b'
+    },
+    {
+        'comment': 'keyword operators that evaluate to True or False'
+        'captures':
+            '2':
+                'name': 'keyword.operator.logical.jbase'
+        'match': '(^|(?:[^.]))\\b(AND|OR|NOT)(?![.])\\b'
+    },
+    {
+        'comment': 'keyword comparison operators'
+        'captures':
+            '2':
+                'name': 'keyword.operator.comparison.jbase'
+        'match': '(^|(?:[^.]))\\b(EQ|LT|LE|GT|GE|NE|<>|MATCHES)(?![.])\\b'
+    },
+    {
+        'name': 'keyword.operator.separation-marks.jbase'
+        'match': '(@FM|@VM|@SM)'
+    }
 ]
+'repository':
+    'numbers':
+        'patterns':[
+            {
+                'captures':
+                    '2':
+                        'name': 'constant.numeric.jbase'
+                'match': '(^|(?:[^._A-Za-z]))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![._A-Za-z])'
+            }
+        ]
+    'comments':
+        'patterns': [
+            {
+                'match': '((^[ \\t]*)|(;[ \\t]*))((REM>)(.*\\n))'
+                'captures':
+                    '2':
+                        'name': 'punctuation.whitespace.comment.leading.jbase'
+                    '4':
+                        'name': 'comment.line.rem-word.jbase'
+                    '5':
+                        'name': 'punctuation.definition.comment.jbase'
+            },
+            {
+                'match': '((^[ \\t]*)|(;[ \\t]*))((\\*)(.*\\n))'
+                'captures':
+                    '2':
+                        'name': 'punctuation.whitespace.comment.leading.jbase'
+                    '4':
+                        'name': 'comment.line.star-sign.jbase'
+                    '5':
+                        'name': 'punctuation.definition.comment.jbase'
+            }
+        ]
+    'strings':
+        'patterns': [
+            {
+                'begin': '"'
+                'beginCaptures':
+                    '0':
+                        'name': 'punctuation.definition.string.begin.jbase'
+                'end': '"'
+                'endCaptures':
+                    '0':
+                        'name': 'punctuation.definition.string.end.jbase'
+                'name': 'string.quoted.double.jbase'
+            },
+            {
+                'begin': '\''
+                'beginCaptures':
+                    '0':
+                        'name': 'punctuation.definition.string.begin.jbase'
+                'end': '\''
+                'endCaptures':
+                    '0':
+                        'name': 'punctuation.definition.string.end.jbase'
+                'name': 'string.quoted.single.jbase'
+            }
+        ]
+    'dynamic_array':
+        'patterns':[
+            {
+                'comment': 'DYNAMIC array'
+                'captures':
+                    '1':
+                        'name': 'punctuation.definition.dynamic_array.jbase'
+                    '2':
+                        'patterns': [
+                            {
+                                'name': 'punctuation.definition.string.dynamic_array.opening_bracket.jbase'
+                                'match': '<'
+                            },
+                            {
+                                'include': '#numbers'
+                            },
+                            {
+                                'name': 'punctuation.definition.string.dynamic_array.comma.jbase'
+                                'match': ','
+                            },
+                            {
+                                'name': 'punctuation.definition.string.dynamic_array.closing_bracket.jbase'
+                                'match': '>'
+                            }
+                        ]
+                'match': '([\\w.]+(<[\\w. -+]+(,[\\w. -+]+)*>))'
+            }
+        ]
+    'statements':
+        'patterns': [
+            # STATEMENTS
+            ## A - C
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.a_c.jbase'
+                'match': '(^|(?:[^.]))\\b(CHAIN|CHANGE|CLEAR|CLEARCOMMON|CLEARDATA|CLEARFILE|CLEARINPUT|CLEARSELECT|CLOSE|CLOSESEQ|COLLECTDATA|COMMON|CONVERT|CREATE|CRT)(?![.])\\b'
+            },
+            ## D - F
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.d_f.jbase'
+                'match': '(^|(?:[^.]))\\b(DATA|DEBUG|DEFC|DEFCE|DEFFUN|DEL|DELETE|DELETELIST|DELETESEQ|DELETEU|DIMENSION|DISPLAY|ECHO|ENTER|EQUATE|FILELOCK|FIND|FINDSTR|FOOTING|FORMLIST|FUNCTION)(?![.])\\b'
+            },
+            ## G - I
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.g_i.jbase'
+                'match': '(^|(?:[^.]))\\b(GET|GETLIST|GROUPSTORE|HEADING|HEADINGE|HEADINGR|HUSH|INCLUDE|INPUT|INPUTCLEAR|INPUTNULL|INS|INSERT)(?![.])\\b'
+            },
+            ## J - M
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.j_m.jbase'
+                'match': '(^|(?:[^.]))\\b(JQLCOMPILE|JQLEXECUTE|JQLFETCH|JQLGETPROPERTY|JQLPUTPROPERTY|LOCK|MAT|MATBUILD|MATPARSE|MATREAD|MATREADU|MATWRITE|MATWRITEU|MSLEEP)(?![.])\\b'
+            },
+            ## N - O
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.n_o.jbase'
+                'match': '(^|(?:[^.]))\\b(NOBUF|NULL|OBJEXCALLBACK|OPEN|OPENDEV|OPENINDEX|OPENPATH|OPENSEQ|OPENSER|OSBREAD|OSBWRITE|OSCLOSE|OSDELETE|OSOPEN|OSREAD|OSWRITE|OUT)(?![.])\\b'
+            },
+            ## P - R
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.p_r.jbase'
+                'match': '(^|(?:[^.]))\\b(PAGE|PAUSE|PERFORM|PRECISION|PRINT|PRINTER|PRINTERR|PROCREAD|PROCWRITE|PROMPT|READ|READBLK|READL|READLIST|READNEXT|READPREV|READSEQ|READT|READU|READV|READVU|READXML|RELEASE|REWIND|RQM|RTNDATA)(?![.])\\b'
+            },
+            ## S - W
+            {
+                'comment': 'jBASE statement names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.statement.s_w.jbase'
+                'match': '(^|(?:[^.]))\\b(SEEK|SELECT|SELECTINDEX|SEND|SLEEP|SSELECT|STATUS|TRANSABORT|TRANSEND|TRANSTART|UNLOCK|WAKE|WEOF|WEOFSEQ|WRITE|WRITEBLK|WRITELIST|WRITESEQ|WRITET|WRITEU|WRITEV|WRITEVU)(?![.])\\b'
+            }
+        ]
+    'function_guts':
+        'patterns':[
+            {
+                'name': 'entity.name.function.comma.jbase'
+                'match': ','
+            },
+            {
+                'name': 'entity.name.function.opening_bracket.jbase'
+                'match': '[(]'
+            },
+            {
+                'name': 'entity.name.function.closing_bracket.jbase'
+                'match': '[)]'
+            },
+            {
+                'include': '#strings'
+            },
+            {
+                'include': '#dynamic_array'
+            },
+            {
+                'include': '#numbers'
+            }
+        ]
+    'functions':
+        'patterns':[
+            ## FUNCTIONS
+            # A - C
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.a_c.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(ABS|ABSS|ADDS|ALPHA|ANDS|ASCII|ASSIGNED|BITAND|BITCHANGE|BITCHECK|BITLOAD|BITNOT|BITOR|BITRESET|BITSET|BITTEST|BITXOR|BYTELEN|CATS|CHANGE|CHAR|CHARS|CHDIR|CHECKSUM|COL1|COL2|COMPARE|CONVERT|COS|COUNT|COUNTS)([(][^)]*[)])'
+            },
+            # D - G
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.d_g.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(DATE|DCOUNT|DECRYPT|DIR|DIV|DIVS|DOWNCASE|DQUOTE|DROUND|DTX|DYNTOXML|EBCDIC|ENCRYPT|EQS|EREPLACE|EXP|EXTRACT|FADD|FDIV|FIELD|FIELDS|FILEINFO|FMT|FMTS|FMUL|FOLD|FSUB|GES|GETCWD|GETENV|GROUP)([(][^)]*[)])'
+            },
+            # I - L
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.i_l.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(ICONV|ICONVS|IFS|INDEX|INDICES|INMAT|INSERT|INT|IOCTL|ISALNUM|ISALPHA|ISCNTRL|ISDIGIT|ISPRINT|ISSPACE|ISUPPER|JBASECOREDUMP|KEYIN|LATIN1|LEFT|LEN|LENDP|LENS|LES|LN|LOCALDATE|LOCALTIME|LOWCASE|LOWER)([(][^)]*[)])'
+            },
+            # M - R
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.m_r.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(MAKETIMESTAMP|MATCHFIELD|MAXIMUM|MINIMUM|MOD|MODS|MULS|NEG|NEGS|NES|NOTS|NUM|NUMS|OCONV|OCONVS|ORS|PUTENV|PWR|QUOTE|RAISE|RECORDLOCKED|REGEXP|REM|REPLACE|RIGHT|RND)([(][^)]*[)])'
+            },
+            # S
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.s.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(SADD|SDIV|SENTENCE|SEQ|SEQS|SIN|SMUL|SORT|SOUNDEX|SPACE|SPACES|SPLICE|SPOOLER|SQRT|SQUOTE|SSUB|STATUS|STR|STRS|SUBS|SUBSTRINGS|SUM|SWAP|SYSTEM)([(][^)]*[)])'
+            },
+            # T - X
+            {
+                'comment': 'jBASE function names'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.t_x.jbase'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.]))\\b(TAN|TIME|TIMEDATE|TIMEDIFF|TIMEOUT|TIMESTAMP|TRANS|TRANSQUERY|TRIM|TRIMB|TRIMBS|TRIMF|TRIMFS|UNASSIGNED|UNIQUEKEY|UPCASE|UTF8|WRITEXML|XLATE|XMLTODYN|XMLTOXML|XTD)([(][^)]*[)])'
+            }
+        ]

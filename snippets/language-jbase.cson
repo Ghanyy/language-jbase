@@ -1,4 +1,4 @@
 '.source.jbc':
   'LOOP':
     'prefix': 'LOOP'
-    'body': 'LOOP\n    REMOVE ${1:Y.ITEM} FROM ${2:Y.LIST} SETTING Y.SEP\nWHILE $1 : Y.SEP\n    \nREPEAT'
+    'body': 'LOOP\n\tREMOVE ${1:Y.ITEM} FROM ${2:Y.LIST} SETTING Y.SEP\nWHILE ${1:Y.ITEM} : Y.SEP\n\t\nREPEAT'
