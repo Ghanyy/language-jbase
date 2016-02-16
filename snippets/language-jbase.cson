@@ -1,17 +1,17 @@
 '.source.jbc':
-  'LOOP':
+  'LOOP statement':
     'prefix': 'LOOP'
     'body': 'LOOP\n\tREMOVE ${1:Y.ITEM} FROM ${2:Y.LIST} SETTING Y.SEP\nWHILE ${1:Y.ITEM} : Y.SEP DO\n\t\nREPEAT'
-  'FOR':
+  'FOR statement':
     'prefix': 'FOR'
     'body': 'FOR ${1:Y.I} = ${2:0} TO ${3:Y.MAX} STEP ${4:1}${5: WHILE Y.ITEM EQ 0}\n\t${6:Y.DO.SOMETHING}\nNEXT ${1:Y.I}'
-  'jBASE SWITCH':
+  'jBASE SWITCH statement':
     'prefix': 'SWITCH'
     'body': 'BEGIN CASE\n\tCASE ${1:Y.ITEM EQ 1}\n\t\t${2:Y.DO.SOMETHING}\n\tCASE ${3:Y.ITEM EQ 2}\n\t\t${4:Y.DO.SOMETHING.2}\nEND CASE'
-  'BEGIN CASE':
+  'BEGIN CASE statement':
     'prefix': 'BEGIN'
     'body': 'BEGIN CASE\n\tCASE ${1:Y.ITEM EQ 1}\n\t\t${2:Y.DO.SOMETHING}\n\tCASE ${3:Y.ITEM EQ 2}\n\t\t${4:Y.DO.SOMETHING.2}\nEND CASE'
-  'inner CASE':
+  'inner CASE sub-statement':
     'prefix': 'CASE'
     'body': 'CASE ${1:Y.ITEM EQ 1}\n\t${2:Y.DO.SOMETHING}'
   'IF statement':
@@ -23,7 +23,7 @@
   'THEN sub-statement':
     'prefix': 'THEN'
     'body': 'THEN\n\t${1:Y.DO.SOMETHING}\nEND$2'
-  'LOCATE':
+  'LOCATE statement':
     'prefix': 'LOCATE'
     'body': 'LOCATE ${1:Y.ITEM} IN ${2:Y.LIST}${3: BY \'AL/AR/AN/DL/DR/DN\'} SETTING Y.POS ${4:THEN/ELSE}'
   'GOSUB definition template':
@@ -31,7 +31,7 @@
     'body': '*========================================================================\n${1:GOSUB.NAME}:\n*========================================================================\n\t$2\n\nRETURN'
   'SUBROUTINE template':
     'prefix': 'newSUBROUTINE'
-    'body': '*=============================================================================================\n*\n*\t@author\t\t${1:\{Author Name\}}\n*\t@create\t\t${2:\{REQUEST_NUMBER\}} ${3:\{YYYY/MM/DD\}}\n*\n*\t@desc  \t\t\n*\n*\t@param \t\t\n*\n*\t@change\t\t\n*\n*\t@changeDesc\t\n*\n*=============================================================================================\nSUBROUTINE ${4:\{MY.SUBROUTINE.NAME\}}\n*=============================================================================================\n\n\t\$INSERT I_COMMON\n\t\$INSERT I_EQUATE\n\n*=============================================================================================\n* Main Processing Loop\n*=============================================================================================\n\t$5\n\nRETURN\n*=============================================================================================\nEND\n'
-  'CVS default HEADER':
+    'body': '*=============================================================================================\n*\n*\t@author\t\t${1:_Author Name_}\n*\t@create\t\t${2:_REQUEST_NUMBER_} ${3:_YYYY/MM/DD_}\n*\n*\t@desc  \t\t\n*\n*\t@param \t\t\n*\n*\t@change\t\t\n*\n*\t@changeDesc\t\n*\n*=============================================================================================\nSUBROUTINE ${4:_MY.SUBROUTINE.NAME_}\n*=============================================================================================\n\n\t\$INSERT I_COMMON\n\t\$INSERT I_EQUATE\n\n*=============================================================================================\n* Main Processing Loop\n*=============================================================================================\n\n\t$5\n\nRETURN\n*=============================================================================================\nEND\n'
+  'CVS default HEADER template':
     'prefix': 'newCVS'
     'body': '*\t\tCopyright (C) ${1:My Company Name, 2016}, all rights reserved.\n*\n*\t\tCVS Header Block - Do not modify\n*\t\t\$Workfile: ${2:MY.SUBROUTINE.NAME} \$\n*\t\t\$Revision: 1.00 \$\n*\t\t\$Date: ${3:YYYY/MM/DD} 08:00:00 \$\n*'
