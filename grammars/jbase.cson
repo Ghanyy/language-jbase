@@ -45,7 +45,7 @@
         'captures':
             '2':
                 'name': 'keyword.control.repeat.jbase'
-        'match': '(^|(?:[^.]))\\b(DO|FOR|LOOP|NEXT|REPEAT|WHILE|UNTIL)(?![.])\\b'
+        'match': '(^|(?:[^.]))\\b(DO|FOR|STEP|LOOP|NEXT|REPEAT|WHILE|UNTIL)(?![.])\\b'
     },
     {
         'comment': 'keywords that alter flow from within a block'
@@ -95,19 +95,10 @@
     }
 ]
 'repository':
-    'numbers':
-        'patterns':[
-            {
-                'captures':
-                    '2':
-                        'name': 'constant.numeric.jbase'
-                'match': '(^|(?:[^._A-Za-z]))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![._A-Za-z])'
-            }
-        ]
     'comments':
         'patterns': [
             {
-                'match': '((^[ \\t]*)|(;[ \\t]*))((REM>)(.*\\n))'
+                'match': '((^[ \\t]*)|(?:;[ \\t]*))((REM>)(.*\\n))'
                 'captures':
                     '2':
                         'name': 'punctuation.whitespace.comment.leading.jbase'
@@ -117,7 +108,7 @@
                         'name': 'punctuation.definition.comment.jbase'
             },
             {
-                'match': '((^[ \\t]*)|(;[ \\t]*))((\\*)(.*\\n))'
+                'match': '((^[ \\t]*)|(?:;[ \\t]*))((\\*)(.*\\n))'
                 'captures':
                     '2':
                         'name': 'punctuation.whitespace.comment.leading.jbase'
@@ -152,6 +143,24 @@
                 'name': 'string.quoted.single.jbase'
             }
         ]
+    'numbers':
+        'patterns':[
+            {
+                'captures':
+                    '2':
+                        'name': 'constant.numeric.jbase'
+                'match': '(^|(?:[^.\\w]))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
+            }
+        ]
+    'inner_numbers':
+        'patterns':[
+            {
+                'captures':
+                    '2':
+                        'name': 'constant.numeric.inner.jbase'
+                'match': '((?:\\G)|(?:[^.\\w]*))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
+            }
+        ]
     'dynamic_array':
         'patterns':[
             {
@@ -162,19 +171,23 @@
                     '2':
                         'patterns': [
                             {
-                                'name': 'punctuation.definition.string.dynamic_array.opening_bracket.jbase'
-                                'match': '<'
-                            },
-                            {
-                                'include': '#numbers'
-                            },
-                            {
-                                'name': 'punctuation.definition.string.dynamic_array.comma.jbase'
-                                'match': ','
-                            },
-                            {
-                                'name': 'punctuation.definition.string.dynamic_array.closing_bracket.jbase'
-                                'match': '>'
+                              'begin': '<'
+                              'beginCaptures':
+                                  '0':
+                                    'name': 'punctuation.definition.string.dynamic_array.opening_bracket.jbase'
+                              'end': '>'
+                              'endCaptures':
+                                  '0':
+                                    'name': 'punctuation.definition.string.dynamic_array.closing_bracket.jbase'
+                              'patterns': [
+                                {
+                                    'name': 'punctuation.definition.string.dynamic_array.comma.jbase'
+                                    'match': ','
+                                },
+                                {
+                                    'include': '#inner_numbers'
+                                }
+                              ]
                             }
                         ]
                 'match': '([\\w.]+(<[\\w. -+]+(,[\\w. -+]+)*>))'
@@ -241,29 +254,31 @@
             }
         ]
     'function_guts':
+      'patterns':[
+        'begin': '[(]'
+        'beginCaptures':
+          '0':
+            'name': 'entity.name.function.opening_bracket.jbase'
+        'end': '[)]'
+        'endCaptures':
+          '0':
+            'name': 'entity.name.function.closing_bracket.jbase'
         'patterns':[
-            {
-                'name': 'entity.name.function.comma.jbase'
-                'match': ','
-            },
-            {
-                'name': 'entity.name.function.opening_bracket.jbase'
-                'match': '[(]'
-            },
-            {
-                'name': 'entity.name.function.closing_bracket.jbase'
-                'match': '[)]'
-            },
-            {
-                'include': '#strings'
-            },
-            {
-                'include': '#dynamic_array'
-            },
-            {
-                'include': '#numbers'
-            }
+          {
+            'name': 'entity.name.function.comma.jbase'
+            'match': ','
+          },
+          {
+            'include': '#strings'
+          },
+          {
+            'include': '#dynamic_array'
+          },
+          {
+            'include': '#inner_numbers'
+          }
         ]
+      ]
     'functions':
         'patterns':[
             ## FUNCTIONS
