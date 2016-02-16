@@ -26,15 +26,11 @@
         'include': '#T24_R10'
     },
     {
-        'match': '([,]|[:])'
-        'name': 'punctuation.separator.jbase'
-    },
-    {
         'comment': 'all-purpose keywords'
         'captures':
             '2':
                 'name': 'keyword.control.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN|EQU)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
     },
     {
         'comment': 'keywords that delimit flow conditionals'
@@ -116,7 +112,7 @@
     'comments':
         'patterns': [
             {
-                'match': '((^[ \\t]*)|(?:;[ \\t]*))((REM>)(.*\\n))'
+                'match': '((^[ \\t]*)|(?:;[ \\t]*))((REM\\s)(.*\\n))'
                 'captures':
                     '2':
                         'name': 'punctuation.whitespace.comment.leading.jbase'
@@ -189,6 +185,12 @@
                     '2':
                         'patterns': [
                             {
+                                'include': '#T24_DA_R10'
+                            }
+                        ]
+                    '3':
+                        'patterns': [
+                            {
                               'begin': '<'
                               'beginCaptures':
                                   '0':
@@ -208,7 +210,7 @@
                               ]
                             }
                         ]
-                'match': '([\\w.]+(<[\\w. -+]+(,[\\w. -+]+)*>))'
+                'match': '(([\\w.]+)(<[\\w. -+]+(,[\\w. -+]+)*>))'
             }
         ]
     'statements':
@@ -236,7 +238,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.g_i.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(GET|GETLIST|GROUPSTORE|HEADING|HEADINGE|HEADINGR|HUSH|INCLUDE|INPUT|INPUTCLEAR|INPUTNULL|INS|INSERT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#%\^&*)-=+{}|?/]))\\b(GET|GETLIST|GROUPSTORE|HEADING|HEADINGE|HEADINGR|HUSH|INCLUDE|INPUT|INPUTCLEAR|INPUTNULL|INS|INSERT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
             },
             ## J - M
             {
@@ -354,7 +356,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(MAKETIMESTAMP|MATCHFIELD|MAXIMUM|MINIMUM|MOD|MODS|MULS|NEG|NEGS|NES|NOTS|NUM|NUMS|OCONV|OCONVS|ORS|PUTENV|PWR|QUOTE|RAISE|RECORDLOCKED|REGEXP|REM|REPLACE|RIGHT|RND)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(MAKETIMESTAMP|MATCHFIELD|MAXIMUM|MINIMUM|MOD|MODS|MULS|NEG|NEGS|NES|NOTS|NUM|NUMS|OCONV|OCONVS|ORS|PUTENV|PWR|QUOTE|RAISE|RECORDLOCKED|REGEXP|REPLACE|RIGHT|RND)([(][^)]*[)])'
             },
             # S
             {
@@ -387,5 +389,36 @@
         ]
     'T24_R10':
         'patterns':[
-
+            ## I_COMMON
+            # Dimensioned arrays
+            {
+                'comment': 'T24, I_COMMON, part A: Common variables used for Matrices'
+                'captures':
+                    '2':
+                        'name': 'entity.name.function.dimensioned_array.T24'
+                    '3':
+                        'patterns': [
+                            {
+                                'include': '#function_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(CHECKFILE|CONCATFILE|F|N|R.OPF|R|R.COMPANY|R.DATES|R.NEW|R.NEW.LAST|R.OLD|R.VERSION|T|T.REMTEXT)([(][^)]*[)])'
+            },
+            # Simple globals
+            {
+                'comment': 'T24, I_COMMON, part B: Simple variables'
+                'captures':
+                    '1':
+                        'name': 'entity.name.function.simple_globals.T24'
+                'match': '(?:[\\s\\t:+-<>=])(A|AF|ANY.INPUT|APPLICATION|AUTH.NO|AUTH.QUALITY|AS|AV|C|CLEAR.SCREEN|COMI|COMI.DEFAULT|COMI.ENRI|CONTROL.MODULO|CONTROLWORD.OK|C$.UNIVERSE.RELEASEDISPLAY|E|ECOMI|END.ERROR|ETEXT|FULL.FNAME|FUNCTION|HIST.NO|ID.ALL|ID.AUT|ID.ENRI|ID.ETEXT|ID.CHECKFILE|ID.COMPANY|ID.CONCATFILE|ID.F|ID.N|ID.R|ID.T|ID.NEW|ID.NEW.LAST|ID.OLD|ID.POINTER|INPUT.BUFFER|L|L.MULTI|L1ST|LANG.NO|LASTA|LASTL.MULTI|LASTP|LCCY|LEVEL.NO|LEVEL.STATUS|LIVE.RECORD.MANDATORYLNGG|LOCAL.REF.FIELD|MESSAGE|MTHPOS|MULTI.POSSIBLE|OPERATOR|OPF.NO|P|PGM.TYPE|PGM.VERSION|PHNO|PREFIX|PRINTER.STATUS|RETURN.COMI|SCREEN.MODE|SCREEN.TITLE|TEXT|TIME.STAMP|TNO|TODAY|TODAY.VERSION|TTYPE|V|VAL.TEXT)(?![^\\s\\t:+-<>=])'
+            },
+        ]
+    'T24_DA_R10':
+        'patterns':[
+            # Dynamic arrays
+            {
+                'comment': 'T24, I_COMMON, part C: (Dynamic) Array variables'
+                'name': 'entity.name.function.dynamic_array.T24'
+                'match': '(R.USER|T.AUTH.PAGE|T.CAT|T.CCY|T.CONTROLWORD|T.DEF.BASE|T.DEF.BASE.TARGET|T.ENRI|T.ETEXT|T.FIELDNO|T.FUNCTION|T.LANGUAGE|T.LOCREF|T.MTH|T.MTH.DAY|T.MULTI.PAGE|T.OPF|T.OV.CLASS|T.PWD|T.PWP|T.RAT|T.RETURN.DATA|T.SELECT|T.SEQU|T.SUB.ASSOC|T.TRS|T.VAL.ASSOC|C$R.LCCY)'
+            }
         ]
