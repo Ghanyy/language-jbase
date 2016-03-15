@@ -30,35 +30,35 @@
         'captures':
             '2':
                 'name': 'keyword.control.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN|EQU)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN|EQU)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that delimit flow conditionals'
         'captures':
             '2':
                 'name': 'keyword.control.conditional.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(IF|CASE|ELSE)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(IF|CASE|ELSE)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that delimit loops'
         'captures':
             '2':
                 'name': 'keyword.control.repeat.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(DO|FOR|STEP|LOOP|NEXT|REPEAT|WHILE|UNTIL)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(DO|FOR|STEP|LOOP|NEXT|REPEAT|WHILE|UNTIL)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that alter flow from within a block'
         'captures':
             '2':
                 'name': 'keyword.control.statement.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(BREAK|CONTINUE|ABORT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(BREAK|CONTINUE|ABORT)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that closes flow'
         'captures':
             '2':
                 'name': 'keyword.control.end.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(EXIT|STOP|ABORT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(EXIT|STOP|ABORT)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'External functions call'
@@ -73,21 +73,21 @@
                     'include': '#function_guts'
                     }
                 ]
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))(CALL)\\s+([\\w.]+)([(][^)]*[)])'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))(CALL)\\s+([\\w.]+)([(][^)]*[)])'
     },
     {
         'comment': 'execution keywords'
         'captures':
             '2':
                 'name': 'keyword.control.execution.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(EXECUTE|CALLC|CALLdotNET|CALLJ)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(EXECUTE|CALLC|CALLdotNET|CALLJ)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that redirects flow'
         'captures':
             '2':
                 'name': 'keyword.control.redirect.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(GOSUB|GOTO|RETURN|GO|ONGOSUB|ONGOTO)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(GOSUB|GOTO|RETURN|GO|ONGOSUB|ONGOTO)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keyword operators that evaluate to True or False'
@@ -162,8 +162,8 @@
             {
                 'captures':
                     '2':
-                        'name': 'constant.numeric.jbase'
-                'match': '(^|(?:[^.\\w]))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
+                          'name': 'constant.numeric.jbase'
+                'match': '(^|(?:[^.\\w]))(([-]?[1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
             }
         ]
     'inner_numbers':
@@ -172,7 +172,32 @@
                 'captures':
                     '2':
                         'name': 'constant.numeric.inner.jbase'
-                'match': '((?:\\G)|(?:[^.\\w]*))(([1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
+                'match': '((?:\\G)|(?:[^.\\w]*))(([-]?[1-9]+[0-9]*|0)([.][0-9]+)*)(?![.\\w]+)'
+            }
+        ]
+    'dynamic_array_guts':
+        'patterns': [
+            {
+              'begin': '<'
+              'beginCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.dynamic_array.opening_bracket.jbase'
+              'patterns': [
+                  {
+                      'name': 'punctuation.definition.string.dynamic_array.comma.jbase'
+                      'match': '(?:,)'
+                  },
+                  {
+                      'include': '#inner_numbers'
+                  },
+                  {
+                      'include': '#T24_R10_GLOBALS_RAW'
+                  }
+              ]
+              'end': '>'
+              'endCaptures':
+                  '0':
+                    'name': 'punctuation.definition.string.dynamic_array.closing_bracket.jbase'
             }
         ]
     'dynamic_array':
@@ -191,26 +216,11 @@
                     '3':
                         'patterns': [
                             {
-                              'begin': '<'
-                              'beginCaptures':
-                                  '0':
-                                    'name': 'punctuation.definition.string.dynamic_array.opening_bracket.jbase'
-                              'end': '>'
-                              'endCaptures':
-                                  '0':
-                                    'name': 'punctuation.definition.string.dynamic_array.closing_bracket.jbase'
-                              'patterns': [
-                                {
-                                    'name': 'punctuation.definition.string.dynamic_array.comma.jbase'
-                                    'match': ','
-                                },
-                                {
-                                    'include': '#inner_numbers'
-                                }
-                              ]
+                                'include': '#dynamic_array_guts'
                             }
                         ]
-                'match': '(([\\w.]+)(<[\\w. -+]+(,[\\w. -+]+)*>))'
+
+                'match': '(([\\w.())]+)(<[\\w. +-]+(,[\\w. +-]+)*>))'
             }
         ]
     'statements':
@@ -222,7 +232,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.a_c.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(CHAIN|CHANGE|CLEAR|CLEARCOMMON|CLEARDATA|CLEARFILE|CLEARINPUT|CLEARSELECT|CLOSE|CLOSESEQ|COLLECTDATA|COMMON|CONVERT|CREATE|CRT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(CHAIN|CHANGE|CLEAR|CLEARCOMMON|CLEARDATA|CLEARFILE|CLEARINPUT|CLEARSELECT|CLOSE|CLOSESEQ|COLLECTDATA|COMMON|CONVERT|CREATE|CRT)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## D - F
             {
@@ -230,7 +240,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.d_f.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(DATA|DEBUG|DEFC|DEFCE|DEFFUN|DEL|DELETE|DELETELIST|DELETESEQ|DELETEU|DIMENSION|DISPLAY|ECHO|ENTER|EQUATE|FILELOCK|FIND|FINDSTR|FOOTING|FORMLIST|FUNCTION)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(DATA|DEBUG|DEFC|DEFCE|DEFFUN|DEL|DELETE|DELETELIST|DELETESEQ|DELETEU|DIMENSION|DISPLAY|ECHO|ENTER|EQUATE|FILELOCK|FIND|FINDSTR|FOOTING|FORMLIST|FUNCTION)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## G - I
             {
@@ -238,7 +248,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.g_i.jbase'
-                'match': '(^|(?:[^.`~!@#%\^&*)-=+{}|?/]))\\b(GET|GETLIST|GROUPSTORE|HEADING|HEADINGE|HEADINGR|HUSH|INCLUDE|INPUT|INPUTCLEAR|INPUTNULL|INS|INSERT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#%\^&*)=+{}|?/-]))\\b(GET|GETLIST|GROUPSTORE|HEADING|HEADINGE|HEADINGR|HUSH|INCLUDE|INPUT|INPUTCLEAR|INPUTNULL|INS|INSERT)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## J - M
             {
@@ -246,7 +256,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.j_m.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(JQLCOMPILE|JQLEXECUTE|JQLFETCH|JQLGETPROPERTY|JQLPUTPROPERTY|LOCK|MAT|MATBUILD|MATPARSE|MATREAD|MATREADU|MATWRITE|MATWRITEU|MSLEEP)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(JQLCOMPILE|JQLEXECUTE|JQLFETCH|JQLGETPROPERTY|JQLPUTPROPERTY|LOCK|MAT|MATBUILD|MATPARSE|MATREAD|MATREADU|MATWRITE|MATWRITEU|MSLEEP)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## N - O
             {
@@ -254,7 +264,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.n_o.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(NOBUF|NULL|OBJEXCALLBACK|OPEN|OPENDEV|OPENINDEX|OPENPATH|OPENSEQ|OPENSER|OSBREAD|OSBWRITE|OSCLOSE|OSDELETE|OSOPEN|OSREAD|OSWRITE|OUT)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(NOBUF|NULL|OBJEXCALLBACK|OPEN|OPENDEV|OPENINDEX|OPENPATH|OPENSEQ|OPENSER|OSBREAD|OSBWRITE|OSCLOSE|OSDELETE|OSOPEN|OSREAD|OSWRITE|OUT)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## P - R
             {
@@ -262,7 +272,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.p_r.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(PAGE|PAUSE|PERFORM|PRECISION|PRINT|PRINTER|PRINTERR|PROCREAD|PROCWRITE|PROMPT|READ|READBLK|READL|READLIST|READNEXT|READPREV|READSEQ|READT|READU|READV|READVU|READXML|RELEASE|REWIND|RQM|RTNDATA)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(PAGE|PAUSE|PERFORM|PRECISION|PRINT|PRINTER|PRINTERR|PROCREAD|PROCWRITE|PROMPT|READ|READBLK|READL|READLIST|READNEXT|READPREV|READSEQ|READT|READU|READV|READVU|READXML|RELEASE|REWIND|RQM|RTNDATA)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             },
             ## S - W
             {
@@ -270,7 +280,7 @@
                 'captures':
                     '2':
                         'name': 'entity.name.function.statement.s_w.jbase'
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(SEEK|SELECT|SELECTINDEX|SEND|SLEEP|SSELECT|STATUS|TRANSABORT|TRANSEND|TRANSTART|UNLOCK|WAKE|WEOF|WEOFSEQ|WRITE|WRITEBLK|WRITELIST|WRITESEQ|WRITET|WRITEU|WRITEV|WRITEVU)(?![.`~!@#$%^&*)-=+{}|?/])\\b'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(SEEK|SELECT|SELECTINDEX|SEND|SLEEP|SSELECT|STATUS|TRANSABORT|TRANSEND|TRANSTART|UNLOCK|WAKE|WEOF|WEOFSEQ|WRITE|WRITEBLK|WRITELIST|WRITESEQ|WRITET|WRITEU|WRITEV|WRITEVU)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
             }
         ]
     'function_guts':
@@ -279,14 +289,10 @@
             'beginCaptures':
                 '0':
                     'name': 'entity.name.function.opening_bracket.jbase'
-            'end': '[)]'
-            'endCaptures':
-                '0':
-                    'name': 'entity.name.function.closing_bracket.jbase'
             'patterns':[
                 {
                     'name': 'entity.name.function.comma.jbase'
-                    'match': ','
+                    'match': '(?:,)'
                 },
                 {
                     'include': '#strings'
@@ -296,8 +302,15 @@
                 },
                 {
                     'include': '#inner_numbers'
+                },
+                {
+                    'include': '#T24_R10_GLOBALS_RAW'
                 }
             ]
+            'end': '[)]'
+            'endCaptures':
+                '0':
+                    'name': 'entity.name.function.closing_bracket.jbase'
     ]
     'functions':
         'patterns':[
@@ -314,7 +327,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(ABS|ABSS|ADDS|ALPHA|ANDS|ASCII|ASSIGNED|BITAND|BITCHANGE|BITCHECK|BITLOAD|BITNOT|BITOR|BITRESET|BITSET|BITTEST|BITXOR|BYTELEN|CALLONEXIT|CATS|CHANGE|CHAR|CHARS|CHDIR|CHECKSUM|COL1|COL2|COMPARE|CONVERT|COS|COUNT|COUNTS)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(ABS|ABSS|ADDS|ALPHA|ANDS|ASCII|ASSIGNED|BITAND|BITCHANGE|BITCHECK|BITLOAD|BITNOT|BITOR|BITRESET|BITSET|BITTEST|BITXOR|BYTELEN|CALLONEXIT|CATS|CHANGE|CHAR|CHARS|CHDIR|CHECKSUM|COL1|COL2|COMPARE|CONVERT|COS|COUNT|COUNTS)([(][^)]*[)])'
             },
             # D - G
             {
@@ -328,7 +341,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(DATE|DCOUNT|DECRYPT|DIR|DIV|DIVS|DOWNCASE|DQUOTE|DROUND|DTX|DYNTOXML|EBCDIC|ENCRYPT|EQS|EREPLACE|EXP|EXTRACT|FADD|FDIV|FIELD|FIELDS|FILEINFO|FMT|FMTS|FMUL|FOLD|FSUB|GES|GETCWD|GETENV|GROUP)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(DATE|DCOUNT|DECRYPT|DIR|DIV|DIVS|DOWNCASE|DQUOTE|DROUND|DTX|DYNTOXML|EBCDIC|ENCRYPT|EQS|EREPLACE|EXP|EXTRACT|FADD|FDIV|FIELD|FIELDS|FILEINFO|FMT|FMTS|FMUL|FOLD|FSUB|GES|GETCWD|GETENV|GROUP)([(][^)]*[)])'
             },
             # I - L
             {
@@ -342,7 +355,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(ICONV|ICONVS|IFS|INDEX|INDICES|INMAT|INSERT|INT|IOCTL|ISALNUM|ISALPHA|ISCNTRL|ISDIGIT|ISPRINT|ISSPACE|ISUPPER|JBASECOREDUMP|KEYIN|LATIN1|LEFT|LEN|LENDP|LENS|LES|LN|LOCALDATE|LOCALTIME|LOWCASE|LOWER)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(ICONV|ICONVS|IFS|INDEX|INDICES|INMAT|INSERT|INT|IOCTL|ISALNUM|ISALPHA|ISCNTRL|ISDIGIT|ISPRINT|ISSPACE|ISUPPER|JBASECOREDUMP|KEYIN|LATIN1|LEFT|LEN|LENDP|LENS|LES|LN|LOCALDATE|LOCALTIME|LOWCASE|LOWER)([(][^)]*[)])'
             },
             # M - R
             {
@@ -356,7 +369,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(MAKETIMESTAMP|MATCHFIELD|MAXIMUM|MINIMUM|MOD|MODS|MULS|NEG|NEGS|NES|NOTS|NUM|NUMS|OCONV|OCONVS|ORS|PUTENV|PWR|QUOTE|RAISE|RECORDLOCKED|REGEXP|REPLACE|RIGHT|RND)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(MAKETIMESTAMP|MATCHFIELD|MAXIMUM|MINIMUM|MOD|MODS|MULS|NEG|NEGS|NES|NOTS|NUM|NUMS|OCONV|OCONVS|ORS|PUTENV|PWR|QUOTE|RAISE|RECORDLOCKED|REGEXP|REPLACE|RIGHT|RND)([(][^)]*[)])'
             },
             # S
             {
@@ -370,7 +383,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(SADD|SDIV|SENTENCE|SEQ|SEQS|SIN|SMUL|SORT|SOUNDEX|SPACE|SPACES|SPLICE|SPOOLER|SQRT|SQUOTE|SSUB|STATUS|STR|STRS|SUBS|SUBSTRINGS|SUM|SWAP|SYSTEM)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(SADD|SDIV|SENTENCE|SEQ|SEQS|SIN|SMUL|SORT|SOUNDEX|SPACE|SPACES|SPLICE|SPOOLER|SQRT|SQUOTE|SSUB|STATUS|STR|STRS|SUBS|SUBSTRINGS|SUM|SWAP|SYSTEM)([(][^)]*[)])'
             },
             # T - X
             {
@@ -384,7 +397,7 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(TAN|TIME|TIMEDATE|TIMEDIFF|TIMEOUT|TIMESTAMP|TRANS|TRANSQUERY|TRIM|TRIMB|TRIMBS|TRIMF|TRIMFS|UNASSIGNED|UNIQUEKEY|UPCASE|UTF8|WRITEXML|XLATE|XMLTODYN|XMLTOXML|XTD)([(][^)]*[)])'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(TAN|TIME|TIMEDATE|TIMEDIFF|TIMEOUT|TIMESTAMP|TRANS|TRANSQUERY|TRIM|TRIMB|TRIMBS|TRIMF|TRIMFS|UNASSIGNED|UNIQUEKEY|UPCASE|UTF8|WRITEXML|XLATE|XMLTODYN|XMLTOXML|XTD)([(][^)]*[)])'
             }
         ]
     'T24_R10':
@@ -402,16 +415,33 @@
                                 'include': '#function_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)-=+{}|?/]))\\b(CHECKFILE|CONCATFILE|F|N|R.OPF|R|R.COMPANY|R.DATES|R.NEW|R.NEW.LAST|R.OLD|R.VERSION|T|T.REMTEXT)([(][^)]*[)])'
+                    '4':
+                        'patterns': [
+                            {
+                                'include': '#dynamic_array_guts'
+                            }
+                        ]
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(CHECKFILE|CONCATFILE|F|N|R[.]OPF|R|R[.]COMPANY|R[.]DATES|R[.]NEW|R[.]NEW[.]LAST|R[.]OLD|R[.]VERSION|T|T[.]REMTEXT)([(][^)]*[)])(<[\\w. +-]+(,[\\w. +-]+)*>)'
             },
             # Simple globals
             {
                 'comment': 'T24, I_COMMON, part B: Simple variables'
                 'captures':
-                    '1':
+                    '2':
                         'name': 'entity.name.function.simple_globals.T24'
-                'match': '(?:[\\s\\t:+-<>=])(A|AF|ANY.INPUT|APPLICATION|AUTH.NO|AUTH.QUALITY|AS|AV|C|CLEAR.SCREEN|COMI|COMI.DEFAULT|COMI.ENRI|CONTROL.MODULO|CONTROLWORD.OK|C$.UNIVERSE.RELEASEDISPLAY|E|ECOMI|END.ERROR|ETEXT|FULL.FNAME|FUNCTION|HIST.NO|ID.ALL|ID.AUT|ID.ENRI|ID.ETEXT|ID.CHECKFILE|ID.COMPANY|ID.CONCATFILE|ID.F|ID.N|ID.R|ID.T|ID.NEW|ID.NEW.LAST|ID.OLD|ID.POINTER|INPUT.BUFFER|L|L.MULTI|L1ST|LANG.NO|LASTA|LASTL.MULTI|LASTP|LCCY|LEVEL.NO|LEVEL.STATUS|LIVE.RECORD.MANDATORYLNGG|LOCAL.REF.FIELD|MESSAGE|MTHPOS|MULTI.POSSIBLE|OPERATOR|OPF.NO|P|PGM.TYPE|PGM.VERSION|PHNO|PREFIX|PRINTER.STATUS|RETURN.COMI|SCREEN.MODE|SCREEN.TITLE|TEXT|TIME.STAMP|TNO|TODAY|TODAY.VERSION|TTYPE|V|VAL.TEXT)(?![^\\s\\t:+-<>=])'
+                'match': '(^|(?:[^.`~!@#$%\^&*){}|?/]))\\b(A|AF|ANY[.]INPUT|APPLICATION|AUTH[.]NO|AUTH[.]QUALITY|AS|AV|C|CLEAR[.]SCREEN|COMI|COMI[.]DEFAULT|COMI[.]ENRI|CONTROL[.]MODULO|CONTROLWORD[.]OK|C$[.]UNIVERSE[.]RELEASEDISPLAY|E|ECOMI|END[.]ERROR|ETEXT|FULL[.]FNAME|FUNCTION|HIST[.]NO|ID[.]ALL|ID[.]AUT|ID[.]ENRI|ID[.]ETEXT|ID[.]CHECKFILE|ID[.]COMPANY|ID[.]CONCATFILE|ID[.]F|ID[.]N|ID[.]R|ID[.]T|ID[.]NEW|ID[.]NEW[.]LAST|ID[.]OLD|ID[.]POINTER|INPUT[.]BUFFER|L|L[.]MULTI|L1ST|LANG[.]NO|LASTA|LASTL[.]MULTI|LASTP|LCCY|LEVEL[.]NO|LEVEL[.]STATUS|LIVE[.]RECORD[.]MANDATORYLNGG|LOCAL[.]REF[.]FIELD|MESSAGE|MTHPOS|MULTI[.]POSSIBLE|OPERATOR|OPF[.]NO|P|PGM[.]TYPE|PGM[.]VERSION|PHNO|PREFIX|PRINTER[.]STATUS|RETURN[.]COMI|SCREEN[.]MODE|SCREEN[.]TITLE|TEXT|TIME[.]STAMP|TNO|TODAY|TODAY[.]VERSION|TTYPE|V|VAL[.]TEXT)(?![.`~!@#$%^&*){}|?/])\\b'
             },
+        ]
+    'T24_R10_GLOBALS_RAW':
+        'patterns':[
+            ## I_COMMON
+            # For inner use
+            {
+              'captures':
+                  '2':
+                      'name': 'entity.name.function.simple_globals_raw.T24'
+              'match': '([^.\\w])(A|AF|ANY[.]INPUT|APPLICATION|AUTH[.]NO|AUTH[.]QUALITY|AS|AV|C|CLEAR[.]SCREEN|COMI|COMI[.]DEFAULT|COMI[.]ENRI|CONTROL[.]MODULO|CONTROLWORD[.]OK|C$[.]UNIVERSE[.]RELEASEDISPLAY|E|ECOMI|END[.]ERROR|ETEXT|FULL[.]FNAME|FUNCTION|HIST[.]NO|ID[.]ALL|ID[.]AUT|ID[.]ENRI|ID[.]ETEXT|ID[.]CHECKFILE|ID[.]COMPANY|ID[.]CONCATFILE|ID[.]F|ID[.]N|ID[.]R|ID[.]T|ID[.]NEW|ID[.]NEW[.]LAST|ID[.]OLD|ID[.]POINTER|INPUT[.]BUFFER|L|L[.]MULTI|L1ST|LANG[.]NO|LASTA|LASTL[.]MULTI|LASTP|LCCY|LEVEL[.]NO|LEVEL[.]STATUS|LIVE[.]RECORD[.]MANDATORYLNGG|LOCAL[.]REF[.]FIELD|MESSAGE|MTHPOS|MULTI[.]POSSIBLE|OPERATOR|OPF[.]NO|P|PGM[.]TYPE|PGM[.]VERSION|PHNO|PREFIX|PRINTER[.]STATUS|RETURN[.]COMI|SCREEN[.]MODE|SCREEN[.]TITLE|TEXT|TIME[.]STAMP|TNO|TODAY|TODAY[.]VERSION|TTYPE|V|VAL[.]TEXT)(?![.\\w]+)'
+            }
         ]
     'T24_DA_R10':
         'patterns':[
@@ -419,6 +449,6 @@
             {
                 'comment': 'T24, I_COMMON, part C: (Dynamic) Array variables'
                 'name': 'entity.name.function.dynamic_array.T24'
-                'match': '(R.USER|T.AUTH.PAGE|T.CAT|T.CCY|T.CONTROLWORD|T.DEF.BASE|T.DEF.BASE.TARGET|T.ENRI|T.ETEXT|T.FIELDNO|T.FUNCTION|T.LANGUAGE|T.LOCREF|T.MTH|T.MTH.DAY|T.MULTI.PAGE|T.OPF|T.OV.CLASS|T.PWD|T.PWP|T.RAT|T.RETURN.DATA|T.SELECT|T.SEQU|T.SUB.ASSOC|T.TRS|T.VAL.ASSOC|C$R.LCCY)'
+                'match': '(R[.]USER|T[.]AUTH.PAGE|T[.]CAT|T[.]CCY|T[.]CONTROLWORD|T[.]DEF[.]BASE|T[.]DEF[.]BASE[.]TARGET|T[.]ENRI|T[.]ETEXT|T[.]FIELDNO|T[.]FUNCTION|T[.]LANGUAGE|T[.]LOCREF|T[.]MTH|T[.]MTH[.]DAY|T[.]MULTI[.]PAGE|T[.]OPF|T[.]OV[.]CLASS|T[.]PWD|T[.]PWP|T[.]RAT|T[.]RETURN[.]DATA|T[.]SELECT|T[.]SEQU|T[.]SUB[.]ASSOC|T[.]TRS|T[.]VAL[.]ASSOC|C$R[.]LCCY)'
             }
         ]
