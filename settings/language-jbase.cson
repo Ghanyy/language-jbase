@@ -1,7 +1,8 @@
 '.source.jbc':
   'editor':
-    'commentStart': '*'
+    'commentStart': '* '
     'tabLength': 4
     'preferredLineLength': 80
     'showInvisibles': true
     'nonWordCharacters':  '/\\()"\':,;<>~!@#$%^&*|+=[]{}`?-' # Default with dot excluded
+    'autoIdent': true

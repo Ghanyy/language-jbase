@@ -23,6 +23,9 @@
         'include': '#numbers'
     },
     {
+        'include': '#separation-marks'
+    },
+    {
         'include': '#T24_R10'
     },
     {
@@ -30,7 +33,7 @@
         'captures':
             '2':
                 'name': 'keyword.control.jbase'
-        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN|EQU)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(THEN|END|BEGIN|FROM|TO|REMOVE|SETTING|SUBROUTINE|SUBR|PROGRAM|LOCATE|IN|EQU|ON ERROR)(?![.`~!@#$%^&*)=+{}|?/-])\\b'
     },
     {
         'comment': 'keywords that delimit flow conditionals'
@@ -67,13 +70,13 @@
                 'name': 'keyword.control.call.jbase'
             '3':
                 'name': 'entity.name.function.external_function'
-            '4':
+            '5':
                 'patterns': [
                     {
                     'include': '#function_guts'
                     }
                 ]
-        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))(CALL)\\s+([\\w.]+)([(][^)]*[)])'
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))(CALL)\\s+([\\w.]+)(([(][^)]*[)])|\\n)'
     },
     {
         'comment': 'execution keywords'
@@ -97,15 +100,24 @@
         'match': '(^|(?![.`!@#$%&=?/]))\\b(AND|OR|NOT)(?![.`!@#$%&=?/])\\b'
     },
     {
+        'comment': 'NOT as a function'
+        'captures':
+            '2':
+                'name': 'keyword.operator.logical.not.funtion.jbase'
+            '3':
+                'patterns': [
+                    {
+                        'include': '#function_guts'
+                    }
+                ]
+        'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(NOT)([(][^)]*[)])'
+    },
+    {
         'comment': 'keyword comparison operators'
         'captures':
             '2':
                 'name': 'keyword.operator.comparison.jbase'
         'match': '(^|(?![.`!@#$%&=?/]))\\b(EQ|LT|LE|GT|GE|NE|<>|MATCHES)(?![.`!@#$%&=?/])\\b'
-    },
-    {
-        'name': 'keyword.operator.separation-marks.jbase'
-        'match': '(@FM|@VM|@SM)'
     }
 ]
 'repository':
@@ -157,6 +169,13 @@
                 'name': 'string.quoted.single.jbase'
             }
         ]
+    'separation-marks':
+        'patterns':[
+            {
+                'name': 'keyword.operator.separation-marks.jbase'
+                'match': '(@FM|@VM|@SM)'
+            }
+        ]
     'numbers':
         'patterns':[
             {
@@ -189,6 +208,9 @@
                   },
                   {
                       'include': '#inner_numbers'
+                  },
+                  {
+                      'include': '#separation-marks'
                   },
                   {
                       'include': '#T24_R10_GLOBALS_RAW'
@@ -305,6 +327,9 @@
                 },
                 {
                     'include': '#T24_R10_GLOBALS_RAW'
+                },
+                {
+                    'include': '#separation-marks'
                 }
             ]
             'end': '[)]'
@@ -421,7 +446,7 @@
                                 'include': '#dynamic_array_guts'
                             }
                         ]
-                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(CHECKFILE|CONCATFILE|F|N|R[.]OPF|R|R[.]COMPANY|R[.]DATES|R[.]NEW|R[.]NEW[.]LAST|R[.]OLD|R[.]VERSION|T|T[.]REMTEXT)([(][^)]*[)])(<[\\w. +-]+(,[\\w. +-]+)*>)'
+                'match': '(^|(?:[^.`~!@#$%\^&*)=+{}|?/-]))\\b(CHECKFILE|CONCATFILE|F|N|R[.]OPF|R|R[.]COMPANY|R[.]DATES|R[.]NEW|R[.]NEW[.]LAST|R[.]OLD|R[.]VERSION|T|T[.]REMTEXT)([(][^)]*[)])(<[\\w. +-]+(,[\\w. +-]+)*>)*'
             },
             # Simple globals
             {
